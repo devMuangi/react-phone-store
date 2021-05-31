@@ -10,12 +10,20 @@ import Details from './components/Details';
 import Cart from './components/Cart';
 import Default from './components/Default';
 import Modal from './components/Modal';
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 function App() {
+  const { loginWithRedirect } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
+
+  if (isAuthenticated) 
   return (
     <React.Fragment>
       <Navbar></Navbar>
       <Switch>
+        {/* <Route exact path="/" component={LoginButton}/> */}
         <Route exact path="/" component={ProductList}/>
         <Route path="/details" component={Details}/>
         <Route path="/cart" component={Cart}/>
@@ -23,8 +31,14 @@ function App() {
       </Switch>
       <Modal/>
     </React.Fragment>
-   
-  );
+   );
+   else
+   return (
+     <React.Fragment>
+     <h1>Welcome to phonecommerce</h1>
+     <button onClick={() => loginWithRedirect()}>Log In</button>
+     </React.Fragment>
+   );
 }
 
 export default App;
